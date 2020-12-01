@@ -26,6 +26,7 @@ func main() {
 	fmt.Printf("Problem 1: %v\n", problem1(data))
 	fmt.Printf("Problem 2: %v\n", problem2(data))
 }
+
 func convertToSet(data []int) map[int]bool {
 	dataSet := make(map[int]bool)
 	for _, i := range data {
