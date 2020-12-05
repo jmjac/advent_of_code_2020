@@ -17,7 +17,6 @@ func main() {
 	passports := make([]map[string]string, 0)
 	passport := make(map[string]string)
 	scanner := bufio.NewScanner(file)
-	passport = make(map[string]string)
 	for scanner.Scan() {
 		line := scanner.Text()
 		if line == "" {
