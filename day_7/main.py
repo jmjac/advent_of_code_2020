@@ -1,3 +1,4 @@
+import queue
 bags = {}
 with open("input.txt", "r") as file:
     for line in file.readlines():
@@ -10,20 +11,37 @@ with open("input.txt", "r") as file:
                 continue 
             q = int(i.split()[0])
             bags[bag][b] = q
-print(bags)
-containt_gold = set()
-updated = True
-for bag, contents in bags.items():
-    if "shiny gold" in contents:
-        containt_gold.add(bag)
 
+def valid_outmost(bags):
+    containt_gold = set()
+    updated = True
+    for bag, contents in bags.items():
+        if "shiny gold" in contents:
+            containt_gold.add(bag)
 
-while updated:
-    updated = False
-    for bag, content in bags.items():
-        for i in containt_gold.copy():
-            if i in content and bag not in containt_gold:
-                containt_gold.add(bag)
-                updated = True
-print(f"Part 1: {len(containt_gold)}")
+    while updated:
+        updated = False
+        for bag, content in bags.items():
+            if bag in containt_gold:
+                continue
+            for i in containt_gold.copy():
+                if i in content:
+                    containt_gold.add(bag)
+                    updated = True
+    return containt_gold
 
+def shiny_capacity(bags):
+    capacity = 0
+    q = queue.Queue()
+    q.put(("shiny gold",1))
+    while not q.empty():
+        top_bag, mult = q.get()
+        for bag, cap in bags[top_bag].items():
+            capacity += cap*mult
+            for b,c in bags[bag].items():
+                capacity += mult*cap*c
+                q.put((b,mult*cap*c))
+    return capacity
+
+print(f"Part 1: {len(valid_outmost(bags))}")
+print(f"Part 2: {shiny_capacity(bags)}")
