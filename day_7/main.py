@@ -2,7 +2,7 @@ import queue
 bags = {}
 with open("input.txt", "r") as file:
     for line in file.readlines():
-        line = line.replace("\n", "").replace(".","").replace("bags", "").replace("bag","")
+        line = line.replace(".","").replace("bags", "").replace("bag","")
         bag, content = line.split("  contain ")
         bags[bag] = {}
         for i in content.split(","):
@@ -14,20 +14,19 @@ with open("input.txt", "r") as file:
 
 def valid_outmost(bags):
     containt_gold = set()
-    updated = True
+    len_before = 0
     for bag, contents in bags.items():
         if "shiny gold" in contents:
             containt_gold.add(bag)
 
-    while updated:
-        updated = False
+    while len_before!=len(containt_gold):
+        len_before = len(containt_gold)
         for bag, content in bags.items():
             if bag in containt_gold:
                 continue
             for i in containt_gold.copy():
                 if i in content:
                     containt_gold.add(bag)
-                    updated = True
     return containt_gold
 
 def shiny_capacity(bags):
