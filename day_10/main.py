@@ -8,7 +8,8 @@ def chain_differences(chain):
         diff[chain[i] - chain[i-1]]+=1
     return diff[3]*diff[1]
 
-def part2(adapters):
+#Original slow solution
+def part2old(adapters):
     start = 0
     total = 1
     for i in range(len(adapters)):
@@ -29,10 +30,22 @@ def all_possible_arrangments(chain, adapters):
         i+=1
     return sum([all_possible_arrangments(new_chain, adapters[i+1:]) for new_chain,i in chains])
 
+def part2fast(i, limit, adapters, mem):
+    if i == limit:
+        return 1
+    res = 0
+    for diff in [1,2,3]:
+        if i+diff in mem:
+            res += mem[i+diff]
+        elif i+diff in adapters:
+            mem[i+diff] = part2fast(i+diff,limit, adapters, mem)
+            res += mem[i+diff]
+    return res
+
 
 adapters.append(0)
 adapters.sort()
 adapters.append(max(adapters)+3)
 
 print(f"Part 1:{chain_differences(adapters)}")
-print(f"Part 2:{part2(adapters)}")
+print(f"Part 2A:{part2fast(0, adapters[-1], set(adapters), {})}")
