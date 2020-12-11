@@ -37,19 +37,19 @@ def count(x, y, grid):
 def count_in_sight(x,y, grid):
     occupied = 0
     movement = {(1,0), (0,1), (-1,0),(-1,-1),(0,-1), (1,1),(-1,1),(1,-1)}
-    move = 1
-    while len(movement)!=0:
-        for dx,dy in movement.copy():
-            seen_x, seen_y = x+dx*move, y+dy*move
-            if not(0 <= seen_y < len(grid) and (0 <= seen_x < len(grid[seen_y]))):
-                movement.remove((dx,dy))
-                continue
-            if grid[seen_y][seen_x] == "#":
-                occupied += 1
-            
-            if grid[seen_y][seen_x] != ".":
-                movement.remove((dx,dy))
-        move+=1
+    for dx,dy in movement:
+        ddx,ddy = x+dx,y+dy
+        while True:
+            #Faster then checking first
+            try:
+                if grid[ddy][ddx] == "#":
+                    occupied += 1
+                    break
+                elif grid[ddy][ddx] == "L":
+                    break
+            except:
+                break
+            ddx, ddy = ddx+dx, ddy+dy
     return occupied
 
 
