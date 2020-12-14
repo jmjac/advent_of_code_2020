@@ -12,16 +12,18 @@ def find_adresses(adress, mask):
                 new_adresses.append(adresses[j] + "1")
                 new_adresses.append(adresses[j] + "0")
             adresses = new_adresses
-        elif mask[i] == "1":
-            for j in range(len(adresses)):
-                adresses[j] += "1"
-        else:
-            for j in range(len(adresses)):
-                if i >= len(mask) - len(adress):
-                    adresses[j] += adress[-(len(mask) - (i))]
-                else:
+            continue
 
-                    adresses[j] += "0"
+        if mask[i] == "1":
+            next_bit = "1"
+        else:
+            if i >= len(mask) - len(adress):
+                next_bit = adress[-(len(mask) - (i))]
+            else:
+                next_bit = "0"
+
+        for j in range(len(adresses)):
+            adresses[j] += next_bit
 
     for j in range(len(adresses)):
         adresses[j] = int(adresses[j], 2)
@@ -35,16 +37,8 @@ with open("input.txt", "r") as f:
         instr, value = i.strip("\n").split(" = ")
         if instr == "mask":
             mask = value
-            masks = ["", ""]
-            for i in value:
-                if i == "X":
-                    masks[0] += "0"
-                    masks[1] += "1"
-                else:
-                    masks[0] += i
-                    masks[1] += i
-            masks[0] = int(masks[0], 2)
-            masks[1] = int(masks[1], 2)
+            masks = [int(value.replace("X", "0"), 2),
+                     int(value.replace("X", "1"), 2)]
         else:
             value = int(value)
             adress = instr.split("[")[1][:-1]
