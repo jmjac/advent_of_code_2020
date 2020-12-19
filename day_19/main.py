@@ -16,16 +16,7 @@ with open("input.txt", "r") as f:
     messages = messages_data.split("\n")
 
 
-def part1(messages, rules):
-    total = 0
-    valid = set([i for i in convert_rule(0, rules)[0]])
-    for message in messages:
-        if message in valid:
-            total += 1
-    return total
-
-
-def part2(messages, rules):
+def check_messages(messages, rules, depth):
     total = 0
     #The rule 0 is build from 8 and 11, they both are build from 42 and 31 so we just generate those
     valid_31 = set()
@@ -41,8 +32,7 @@ def part2(messages, rules):
     num_to_valid = {31: valid_31, 42: valid_42}
     comb = []
     temp = []
-    depth = 100
-    # Generate the possible cominations without storing them whole
+    # Generate the possible combinations without storing them whole
     for i in range(1, depth+1):
         temp = [42] + temp + [31]
         for j in range(1, depth+1):
@@ -82,5 +72,6 @@ def convert_rule(rule, rules):
         converted_rules.append(converted)
     return converted_rules
 
-print(f"Part 1: {part1(messages, rules)}")
-print(f"Part 2: {part2(messages, rules)}")
+print(f"Part 1: {check_messages(messages, rules,1)}")
+#Increase the depth for longer inputs
+print(f"Part 2: {check_messages(messages, rules,10)}")
