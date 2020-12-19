@@ -1,7 +1,6 @@
 with open("input.txt", "r") as f:
     rules_data, messages_data = f.read().split("\n\n")
     rules = {}
-    basic_rules = set()
     for rule in rules_data.split("\n"):
         n, r = rule.split(": ")
         n = int(n)
@@ -9,10 +8,8 @@ with open("input.txt", "r") as f:
         for i in r.split(" | "):
             if '"' in i:
                 rules[n].append(i.replace('"', "").split()[0])
-                basic_rules.add(n)
             else:
                 rules[n].append([int(j) for j in i.split()])
-
     messages = messages_data.split("\n")
 
 
