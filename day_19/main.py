@@ -27,6 +27,7 @@ def part1(messages, rules):
 
 def part2(messages, rules):
     total = 0
+    #The rule 0 is build from 8 and 11, they both are build from 42 and 31 so we just generate those
     valid_31 = set()
     valid_42 = set()
     for rule_set in convert_rule(31, rules):
@@ -81,6 +82,9 @@ def convert_rule(rule, rules):
         converted_rules.append(converted)
     return converted_rules
 
-
+import time
+s = time.time()
 print(f"Part 1: {part1(messages, rules)}")
+print(f"Time: {time.time() - s}")
 print(f"Part 2: {part2(messages, rules)}")
+print(f"Time: {time.time() - s}")
