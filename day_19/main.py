@@ -82,9 +82,5 @@ def convert_rule(rule, rules):
         converted_rules.append(converted)
     return converted_rules
 
-import time
-s = time.time()
 print(f"Part 1: {part1(messages, rules)}")
-print(f"Time: {time.time() - s}")
 print(f"Part 2: {part2(messages, rules)}")
-print(f"Time: {time.time() - s}")
