@@ -3,12 +3,12 @@ with open("input.txt", "r") as f:
     rules = {}
     basic_rules = set()
     for rule in rules_data.split("\n"):
-        n,r = rule.split(": ")
+        n, r = rule.split(": ")
         n = int(n)
         rules[n] = []
         for i in r.split(" | "):
             if '"' in i:
-                rules[n].append(i.replace('"',"").split()[0])
+                rules[n].append(i.replace('"', "").split()[0])
                 basic_rules.add(n)
             else:
                 rules[n].append([int(j) for j in i.split()])
@@ -16,18 +16,55 @@ with open("input.txt", "r") as f:
     messages = messages_data.split("\n")
 
 
-
 def part1(messages, rules):
     total = 0
     valid = set([i for i in convert_rule(0, rules)[0]])
     for message in messages:
         if message in valid:
-            total+=1
+            total += 1
+    return total
+
+
+def part2(messages, rules):
+    total = 0
+    valid_31 = set()
+    valid_42 = set()
+    for rule_set in convert_rule(31, rules):
+        for rule in rule_set:
+            valid_31.add(rule)
+
+    for rule_set in convert_rule(42, rules):
+        for rule in rule_set:
+            valid_42.add(rule)
+
+    num_to_valid = {31: valid_31, 42: valid_42}
+    comb = []
+    temp = []
+    depth = 100
+    # Generate the possible cominations without storing them whole
+    for i in range(1, depth+1):
+        temp = [42] + temp + [31]
+        for j in range(1, depth+1):
+            comb.append([42]*j+temp)
+
+    for message in messages:
+        for valid in comb:
+            start = 0
+            for i in valid:
+                len_valid = len(next(iter(num_to_valid[i])))
+                if message[start:start+len_valid] not in num_to_valid[i]:
+                    break
+                start += len_valid
+            else:
+                if start == len(message):
+                    total += 1
+                    break
+
     return total
 
 
 def convert_rule(rule, rules):
-    converted_rules = [] 
+    converted_rules = []
     for rule_set in rules[rule]:
         converted = [""]
         for r in rule_set:
@@ -44,4 +81,6 @@ def convert_rule(rule, rules):
         converted_rules.append(converted)
     return converted_rules
 
+
 print(f"Part 1: {part1(messages, rules)}")
+print(f"Part 2: {part2(messages, rules)}")
