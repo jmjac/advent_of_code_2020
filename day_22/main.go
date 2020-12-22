@@ -31,7 +31,14 @@ func main() {
 	}
 
 	fmt.Printf("Part 1: %v\n", game(player1, player2))
-	fmt.Printf("Part 2: %v\n", recursiveGame(player1, player2))
+	p1, p2 := recursiveGame(player1, player2)
+	var winner int
+	if p1 > p2 {
+		winner = p1
+	} else {
+		winner = p2
+	}
+	fmt.Printf("Part 2: %v\n", winner)
 }
 
 func game(p1, p2 []int) int {
@@ -61,10 +68,10 @@ func game(p1, p2 []int) int {
 	return total
 }
 
-func recursiveGame(p1, p2 []int) int {
+func recursiveGame(p1, p2 []int) (int, int) {
 	history := make(map[string]bool)
 	for len(p1) != 0 && len(p2) != 0 {
-		game := fmt.Sprintf("%v,%v,%v,%v",p1[0], p2[0], p1[len(p1)-1], p2[len(p2)-1])
+		game := fmt.Sprintf("%v,%v,%v,%v", p1[0], p2[0], p1[len(p1)-1], p2[len(p2)-1])
 		if _, exists := history[game]; exists {
 			break
 		}
@@ -86,7 +93,7 @@ func recursiveGame(p1, p2 []int) int {
 			copy(p1Slice, p1[:v1])
 			p2Slice := make([]int, v2)
 			copy(p2Slice, p2[:v2])
-			result := recursiveGame(p1Slice[:], p2Slice[:])
+			result, _ := recursiveGame(p1Slice[:], p2Slice[:])
 			if result == 0 {
 				p2 = append(p2, v2)
 				p2 = append(p2, v1)
@@ -100,5 +107,9 @@ func recursiveGame(p1, p2 []int) int {
 	for i, v := range p1 {
 		total += (len(p1) - i) * v
 	}
-	return total
+	total2 := 0
+	for i, v := range p2 {
+		total2 += (len(p1) - i) * v
+	}
+	return total, total2
 }
