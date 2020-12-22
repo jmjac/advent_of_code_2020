@@ -31,11 +31,8 @@ func main() {
 		player2 = append(player2, num)
 	}
 
-	gamesHistory := make(map[string]bool)
-	s := time.Now()
 	fmt.Printf("Part 1: %v\n", game(player1, player2))
 	fmt.Printf("Part 2: %v\n", recursiveGame(player1, player2, gamesHistory))
-	fmt.Println(time.Since(s))
 }
 
 func game(p1, p2 []int) int {
