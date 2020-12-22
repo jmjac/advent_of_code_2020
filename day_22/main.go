@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"strconv"
-	"time"
 	"strings"
 )
 
@@ -87,7 +86,7 @@ func recursiveGame(p1, p2 []int) int {
 			copy(p1Slice, p1[:v1])
 			p2Slice := make([]int, v2)
 			copy(p2Slice, p2[:v2])
-			result := recursiveGame(p1Slice[:], p2Slice[:], history)
+			result := recursiveGame(p1Slice[:], p2Slice[:])
 			if result == 0 {
 				p2 = append(p2, v2)
 				p2 = append(p2, v1)
