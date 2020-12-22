@@ -32,7 +32,7 @@ func main() {
 	}
 
 	fmt.Printf("Part 1: %v\n", game(player1, player2))
-	fmt.Printf("Part 2: %v\n", recursiveGame(player1, player2, gamesHistory))
+	fmt.Printf("Part 2: %v\n", recursiveGame(player1, player2))
 }
 
 func game(p1, p2 []int) int {
@@ -62,7 +62,7 @@ func game(p1, p2 []int) int {
 	return total
 }
 
-func recursiveGame(p1, p2 []int, histcwory map[string]bool) int {
+func recursiveGame(p1, p2 []int) int {
 	history := make(map[string]bool)
 	for len(p1) != 0 && len(p2) != 0 {
 		game := fmt.Sprintf("%v,%v,%v,%v",p1[0], p2[0], p1[len(p1)-1], p2[len(p2)-1])
