@@ -33,6 +33,7 @@ func main() {
 	fmt.Printf("Part 1: %v\n", game(player1, player2))
 	p1, p2 := recursiveGame(player1, player2)
 	var winner int
+	
 	if p1 > p2 {
 		winner = p1
 	} else {
@@ -68,10 +69,18 @@ func game(p1, p2 []int) int {
 	return total
 }
 
+func playerHash(p []int) int64{
+	var hash int64
+	for i, v := range p{
+		hash += int64((v+i)*i)*4139+6367*int64(v)+int64(i)*6781
+	}
+	return hash*5233
+}
+
 func recursiveGame(p1, p2 []int) (int, int) {
-	history := make(map[string]bool)
+	history := make(map[int64]bool)
 	for len(p1) != 0 && len(p2) != 0 {
-		game := fmt.Sprintf("%v,%v,%v,%v", p1[0], p2[0], p1[len(p1)-1], p2[len(p2)-1])
+		game := playerHash(p1)*7481 +  playerHash(p2)*7919
 		if _, exists := history[game]; exists {
 			break
 		}
