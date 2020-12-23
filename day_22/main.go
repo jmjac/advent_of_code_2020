@@ -72,9 +72,12 @@ func game(p1, p2 []int) int {
 func playerHash(p []int) int64{
 	var hash int64
 	for i, v := range p{
-		hash += int64((v+i)*i)*4139+6367*int64(v)+int64(i)*6781
+		hash += int64((v+i)*i)
+		hash *= 4139
+		hash += int64(v)+int64(i)
+		hash *= 5233
 	}
-	return hash*5233
+	return hash
 }
 
 func recursiveGame(p1, p2 []int) (int, int) {
