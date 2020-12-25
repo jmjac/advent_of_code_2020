@@ -21,7 +21,6 @@ func main() {
 }
 
 func part1(doorKey, cardKey int) int {
-	doorLoopSize := findLoopSize(doorKey)
 	cardLoopSize := findLoopSize(cardKey)
 	privateKey := 1
 	for i := 0; i < cardLoopSize; i++ {
@@ -43,4 +42,5 @@ func findLoopSize(key int) int {
 		}
 	}
 	log.Panic("Coudn't find the loop size, increase the loop range and verify the input")
+	return 0
 }
